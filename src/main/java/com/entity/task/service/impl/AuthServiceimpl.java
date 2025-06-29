@@ -9,15 +9,12 @@ import com.entity.task.repository.RoleRepository;
 import com.entity.task.repository.UserRepository;
 import com.entity.task.security.JwtTokenProvider;
 import com.entity.task.service.AuthService;
+import com.entity.task.webconstants.WebConstants;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class AuthServiceimpl implements AuthService {
-
-    public static final String ACCOUNT_OR_PASSWORD_NOT_CORRECT = "Tài khoản hoặc mật khẩu không đúng.";
-    public static final String ACCOUT_EXITS = "Tài khoản đã tồn tại.";
-    public static final String CREATE_ACCOUNT_SUCCESSFULLY = "Tại tài khoản thành công.";
-    public static final String LOGIN_SUCCESSFULLY = "Đăng nhâp thành công.";
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -42,19 +39,19 @@ public class AuthServiceimpl implements AuthService {
             String token = jwtTokenProvider.generateToken(loginRequest.getAccount());
             return token;
         }
-        return ACCOUNT_OR_PASSWORD_NOT_CORRECT;
+        return WebConstants.ACCOUNT_OR_PASSWORD_NOT_CORRECT;
     }
 
     @Override
     public String Register(RegisterRequest registerRequest) {
         if (userRepository.findByAccount(registerRequest.getAccount()) != null)
-            return ACCOUT_EXITS;
+            return WebConstants.ACCOUT_EXITS;
         User user = new User();
         user.setAccount(registerRequest.getAccount());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setRole(roleRepository.findByRole("USER"));
         userRepository.save(user);
-        return CREATE_ACCOUNT_SUCCESSFULLY;
+        return WebConstants.CREATE_ACCOUNT_SUCCESSFULLY;
     }
 
 }

@@ -64,3 +64,4 @@ VALUES (
     (SELECT id FROM task_priority WHERE level = 1),
     (SELECT id FROM task_status WHERE status = 'PENDING')
 );
+
