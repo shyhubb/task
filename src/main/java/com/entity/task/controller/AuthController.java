@@ -30,6 +30,7 @@ public class AuthController {
             return new ResponseEntity<>(new BaseResponse<>(WebConstants.ACCOUNT_OR_PASSWORD_NOT_CORRECT, null),
                     HttpStatus.BAD_REQUEST);
         LoginResponse loginResponse = new LoginResponse(token);
+        System.out.println(token);
         return new ResponseEntity<>(new BaseResponse<>(WebConstants.LOGIN_SUCCESSFULLY, loginResponse),
                 HttpStatus.OK);
     }

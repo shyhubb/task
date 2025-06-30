@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.entity.task.dto.request.LoginRequest;
 import com.entity.task.dto.request.RegisterRequest;
+import com.entity.task.entities.Role;
 import com.entity.task.entities.User;
 import com.entity.task.repository.RoleRepository;
 import com.entity.task.repository.UserRepository;
@@ -35,8 +36,9 @@ public class AuthServiceimpl implements AuthService {
     @Override
     public String Login(LoginRequest loginRequest) {
         User user = userRepository.findByAccount(loginRequest.getAccount());
+        String role = user.getRole().getRoleName();
         if (user != null && passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            String token = jwtTokenProvider.generateToken(loginRequest.getAccount());
+            String token = jwtTokenProvider.generateToken(loginRequest.getAccount(), role);
             return token;
         }
         return WebConstants.ACCOUNT_OR_PASSWORD_NOT_CORRECT;
@@ -49,7 +51,7 @@ public class AuthServiceimpl implements AuthService {
         User user = new User();
         user.setAccount(registerRequest.getAccount());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setRole(roleRepository.findByRole("USER"));
+        user.setRole(roleRepository.findByRoleName("USER"));
         userRepository.save(user);
         return WebConstants.CREATE_ACCOUNT_SUCCESSFULLY;
     }

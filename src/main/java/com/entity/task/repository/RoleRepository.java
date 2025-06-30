@@ -6,5 +6,5 @@ import com.entity.task.entities.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    Role findByRole(String role);
+    Role findByRoleName(String roleName);
 }

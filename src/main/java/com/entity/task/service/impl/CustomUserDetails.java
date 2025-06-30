@@ -26,9 +26,15 @@ public class CustomUserDetails implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with account: " + account);
         }
+
+        // --- THE FIX IS HERE ---
+        // Ensure the role is prefixed with "ROLE_"
+        String roleWithPrefix = "ROLE_" + user.getRole().getRoleName(); // Assuming roles like "ADMIN", "USER"
+        // You might want to store roles in uppercase
+        // already
         return new org.springframework.security.core.userdetails.User(
                 user.getAccount(),
                 user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
+                Collections.singletonList(new SimpleGrantedAuthority(roleWithPrefix)));
     }
 }

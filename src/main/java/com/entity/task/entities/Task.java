@@ -26,11 +26,11 @@ public class Task {
     private User user;
     @ManyToOne
     @JoinColumn(name = "task_priority_id")
-    private TaskPriority taskPriority;
+    private TaskPriority taskPriority; // do uu tien
 
     @ManyToOne
     @JoinColumn(name = "task_status_id")
-    private TaskStatus taskStatus;
+    private TaskStatus taskStatus; // trang thai
 
     public Task() {
     }

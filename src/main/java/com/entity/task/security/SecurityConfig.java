@@ -43,8 +43,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll() // Các endpoint liên quan đến xác thực (đăng ký, đăng
                                                                  // nhập) được phép truy cập công khai
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Các endpoint bắt đầu bằng /admin/ CHỈ được
-                                                                       // phép cho người dùng có vai trò ADMIN
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // Các endpoint bắt đầu bằng /admin/ CHỈ được
+                        // phép cho người dùng có vai trò ADMIN
                         .anyRequest().permitAll()) // TẤT CẢ CÁC YÊU CẦU KHÁC (không khớp /auth/** và /admin/**) được
                                                    // phép truy cập công khai
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Thêm JWT

@@ -13,15 +13,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter
 @Setter
+@Getter
 @Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increase id
     private Long id;
-    @Column(name = "role", nullable = false, unique = true, length = 50)
-    private String role;
+    @Column(name = "roleName", nullable = false, unique = true, length = 50)
+    private String roleName;
 
     @OneToMany(mappedBy = "role")
     private List<User> users;
@@ -29,8 +29,8 @@ public class Role {
     public Role() {
     }
 
-    public Role(String role, List<User> users) {
-        this.role = role;
+    public Role(String roleName, List<User> users) {
+        this.roleName = roleName;
         this.users = users;
     }
 
