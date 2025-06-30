@@ -20,4 +20,7 @@ public class WebConstants {
     // task service
     public static final String STATUS_OR_PRORITY_NOT_FOUND = "Không tìm thấy trạng thái hoặc độ ưu tiên bạn yêu cầu.";
 
+    // user service
+    public static final String DONT_HAVE_TASK = "Bạn chưa có nhiệm vụ nào.";
+
 }
