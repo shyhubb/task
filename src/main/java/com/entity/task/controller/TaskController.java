@@ -7,14 +7,13 @@ import com.entity.task.dto.request.TaskRequest;
 import com.entity.task.dto.response.BaseResponse;
 import com.entity.task.service.impl.TaskServiceimpl;
 import com.entity.task.webconstants.WebConstants;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/user/task")
+@RequestMapping("/task")
 public class TaskController {
 
     private final TaskServiceimpl taskServiceimpl;

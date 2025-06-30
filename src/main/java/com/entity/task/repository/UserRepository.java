@@ -14,5 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @SuppressWarnings("null")
     List<User> findAll();
 
+    @SuppressWarnings("null")
     Optional<User> findById(Long id);
+
 }

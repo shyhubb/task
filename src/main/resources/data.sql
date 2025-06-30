@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS taskmanager CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE taskmanager;
+-- CREATE DATABASE IF NOT EXISTS taskmanager CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE taskmanager;
 
 INSERT IGNORE INTO roles (id, role_name) VALUES (1, 'USER');
 INSERT IGNORE INTO roles (id, role_name) VALUES (2, 'ADMIN');

@@ -4,7 +4,7 @@ public class WebConstants {
 
     public static final String BASE_SUCCESS = "Thành công.";
     public static final String BASE_FAIL = "Thất bại.";
-
+    public static final String DOES_NOT_HAVE_PERMISSION = "Bạn không có quyền truy cập tài nguyên này.";
     // auth
     public static final String ACCOUNT_OR_PASSWORD_NOT_CORRECT = "Tài khoản hoặc mật khẩu không đúng.";
     public static final String ACCOUT_EXITS = "Tài khoản đã tồn tại.";
@@ -22,5 +22,6 @@ public class WebConstants {
 
     // user service
     public static final String DONT_HAVE_TASK = "Bạn chưa có nhiệm vụ nào.";
+    public static final String TASK_NOT_FOUND_BY_ID = "Không tìm thấy nhiệm vụ. ID: ";
 
 }

@@ -7,4 +7,5 @@ import com.entity.task.entities.TaskStatus;
 @Repository
 public interface TaskStatusRepository extends JpaRepository<TaskStatus, Long> {
 
+    TaskStatus findByStatus(String status);
 }

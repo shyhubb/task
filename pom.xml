@@ -15,6 +15,7 @@
 	<name>Task manager</name>
 	<description>Basic task manager </description>
 	<url/>
+	<packaging>war</packaging>
 	<licenses>
 		<license/>
 	</licenses>

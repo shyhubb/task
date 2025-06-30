@@ -7,5 +7,4 @@ import com.entity.task.entities.TaskPriority;
 @Repository
 public interface TaskProrityRepository extends JpaRepository<TaskPriority, Long> {
     // Additional query methods can be defined here if needed
-
 }
