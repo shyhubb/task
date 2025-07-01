@@ -23,5 +23,8 @@ public class WebConstants {
     // user service
     public static final String DONT_HAVE_TASK = "Bạn chưa có nhiệm vụ nào.";
     public static final String TASK_NOT_FOUND_BY_ID = "Không tìm thấy nhiệm vụ. ID: ";
-
+    public static final String TASK_NOT_FOUND_BY_STATUS_ID = "Không tìm thấy nhiệm vụ với trạng thái. ID: ";
+    public static final String TASK_NOT_FOUND_BY_PRIORITY_ID = "Không tìm thấy nhiệm vụ với độ ưu tiên. ID: ";
+    public static final String STATUS_NOT_FOUND_BY_ID = "Không tìm thấy trạng thái. ID: ";
+    public static final String PRIORITY_NOT_FOUND_BY_ID = "Không tìm thấy độ ưu tiên. ID: ";
 }

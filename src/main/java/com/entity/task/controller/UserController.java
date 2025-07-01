@@ -2,10 +2,10 @@ package com.entity.task.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.entity.task.dto.request.TaskRequest;
 import com.entity.task.dto.response.BaseResponse;
 import com.entity.task.dto.response.TaskResponse;
+import com.entity.task.dto.response.TaskSummaryResponse;
 import com.entity.task.service.impl.TaskServiceimpl;
 import com.entity.task.service.impl.UserServiceimpl;
 import com.entity.task.webconstants.WebConstants;
@@ -31,7 +31,7 @@ public class UserController {
         this.taskServiceimpl = taskServiceimpl;
     }
 
-    @PostMapping("/create")
+    @PostMapping("task/create")
     public ResponseEntity<BaseResponse<String>> createTask(@RequestBody TaskRequest taskRequest) {
         BaseResponse<String> createTask = taskServiceimpl.createTask(taskRequest);
         String status = createTask.getMessage();
@@ -41,7 +41,7 @@ public class UserController {
         return new ResponseEntity<>(createTask, HttpStatus.CREATED);
     }
 
-    @GetMapping("/task/findall")
+    @GetMapping("/task/find/all")
     public ResponseEntity<BaseResponse<List<TaskResponse>>> findAllTask() {
         List<TaskResponse> tasks = userServiceimpl.findAllTask();
         if (tasks.isEmpty()) {
@@ -77,4 +77,37 @@ public class UserController {
         return new ResponseEntity<>(deleteTask, HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/task/find/tasksummary")
+    public ResponseEntity<BaseResponse<List<TaskSummaryResponse>>> getTaskSummary() {
+        BaseResponse<List<TaskSummaryResponse>> taskSummaryResponseWrapper = userServiceimpl.findAllTaskSummary();
+        List<TaskSummaryResponse> taskSummaries = taskSummaryResponseWrapper.getData();
+
+        if (taskSummaries.isEmpty()) {
+            return new ResponseEntity<>(new BaseResponse<>(WebConstants.BASE_FAIL, null),
+                    HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(new BaseResponse<>(WebConstants.BASE_SUCCESS, taskSummaries), HttpStatus.OK);
+    }
+
+    @GetMapping("/task/find/task/status/{id}")
+    public ResponseEntity<BaseResponse<List<TaskResponse>>> findTaskByStatus(@PathVariable Long id) {
+        BaseResponse<List<TaskResponse>> taskResponse = userServiceimpl.findTaskByStatus(id);
+        if (taskResponse.getMessage().equals(WebConstants.BASE_SUCCESS)) {
+            return new ResponseEntity<>(new BaseResponse<>(taskResponse.getMessage(), taskResponse.getData()),
+                    HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new BaseResponse<>(taskResponse.getMessage(), null),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/task/find/task/priority/{id}")
+    public ResponseEntity<BaseResponse<List<TaskResponse>>> findTaskByPriority(@PathVariable Long id) {
+        BaseResponse<List<TaskResponse>> taskResponse = userServiceimpl.findTaskByPriority(id);
+        if (taskResponse.getMessage().equals(WebConstants.BASE_SUCCESS)) {
+            return new ResponseEntity<>(new BaseResponse<>(taskResponse.getMessage(), taskResponse.getData()),
+                    HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new BaseResponse<>(taskResponse.getMessage(), null),
+                HttpStatus.NO_CONTENT);
+    }
 }

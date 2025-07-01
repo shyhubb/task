@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 import com.entity.task.dto.request.TaskRequest;
 import com.entity.task.dto.response.BaseResponse;
 import com.entity.task.dto.response.TaskResponse;
+import com.entity.task.dto.response.TaskSummaryResponse;
 import com.entity.task.entities.Task;
 import com.entity.task.entities.TaskPriority;
 import com.entity.task.entities.TaskStatus;
 import com.entity.task.entities.User;
-import com.entity.task.repository.TaskProrityRepository;
+import com.entity.task.repository.TaskPriorityRepository;
 import com.entity.task.repository.TaskRepository;
 import com.entity.task.repository.TaskStatusRepository;
 import com.entity.task.service.UserSerivce;
@@ -24,12 +25,12 @@ public class UserServiceimpl implements UserSerivce {
 
     private final CurrentUserDetails currentUserDetails;
 
-    private final TaskProrityRepository taskProrityRepository;
+    private final TaskPriorityRepository taskProrityRepository;
 
     private final TaskStatusRepository taskStatusRepository;
 
     public UserServiceimpl(TaskRepository taskRepository, CurrentUserDetails currentUserDetails,
-            TaskProrityRepository taskProrityRepository,
+            TaskPriorityRepository taskProrityRepository,
             TaskStatusRepository taskStatusRepository) {
         this.taskRepository = taskRepository;
         this.currentUserDetails = currentUserDetails;
@@ -126,4 +127,83 @@ public class UserServiceimpl implements UserSerivce {
         return new BaseResponse<>(WebConstants.BASE_SUCCESS, null);
 
     }
+
+    @Override
+    public BaseResponse<List<TaskSummaryResponse>> findAllTaskSummary() {
+        User user = currentUserDetails.getUserDetails();
+        List<Task> tasks = taskRepository.findByUser(user);
+        if (tasks.isEmpty()) {
+            new BaseResponse<>(WebConstants.DONT_HAVE_TASK, null);
+        }
+        List<TaskSummaryResponse> taskSummaryResponse = new ArrayList<>();
+        for (Task task : tasks) {
+            TaskSummaryResponse taskSummary = new TaskSummaryResponse();
+            taskSummary.setId(task.getId());
+            taskSummary.setTaskName(task.getTaskName());
+            taskSummary.setDueDate(task.getDueDate());
+            taskSummary.setTaskStatus(task.getTaskStatus().getStatus());
+
+            taskSummaryResponse.add(taskSummary);
+        }
+        return new BaseResponse<List<TaskSummaryResponse>>(WebConstants.BASE_SUCCESS, taskSummaryResponse);
+    }
+
+    @Override
+    public BaseResponse<List<TaskResponse>> findTaskByStatus(Long id) {
+        Optional<TaskStatus> taskStatusOptional = taskStatusRepository.findById(id);
+        if (taskStatusOptional.isEmpty()) {
+            return new BaseResponse<>(WebConstants.STATUS_NOT_FOUND_BY_ID + id, null);
+        }
+        TaskStatus taskStatus = taskStatusOptional.get();
+        User user = currentUserDetails.getUserDetails();
+        List<Task> tasks = taskRepository.findByTaskStatusAndUser(taskStatus, user);
+        if (tasks.isEmpty()) {
+            return new BaseResponse<>(WebConstants.TASK_NOT_FOUND_BY_STATUS_ID + id, null);
+        }
+        List<TaskResponse> taskResponse = new ArrayList<>();
+        for (Task task : tasks) {
+            TaskResponse taskResponseTemp = new TaskResponse();
+            taskResponseTemp.setId(task.getId());
+            taskResponseTemp.setDescription(task.getDescription());
+            taskResponseTemp.setDueDate(task.getDueDate());
+            taskResponseTemp.setTaskName(task.getTaskName());
+            taskResponseTemp.setUserId(task.getUser().getId());
+            taskResponseTemp.setTaskPriority(task.getTaskPriority().getDescription());
+            taskResponseTemp.setTaskPriorityLevel(task.getTaskPriority().getLevel());
+            taskResponseTemp.setTaskStatus(task.getTaskStatus().getStatus());
+            taskResponse.add(taskResponseTemp);
+        }
+
+        return new BaseResponse<>(WebConstants.BASE_SUCCESS, taskResponse);
+    }
+
+    @Override
+    public BaseResponse<List<TaskResponse>> findTaskByPriority(Long id) {
+        Optional<TaskPriority> taskPriorityOptional = taskProrityRepository.findById(id);
+        if (taskPriorityOptional.isEmpty()) {
+            return new BaseResponse<>(WebConstants.TASK_NOT_FOUND_BY_ID + id, null);
+        }
+        TaskPriority taskPriority = taskPriorityOptional.get();
+        User user = currentUserDetails.getUserDetails();
+        List<Task> tasks = taskRepository.findByTaskPriorityAndUser(taskPriority, user);
+        if (tasks.isEmpty()) {
+            return new BaseResponse<>(WebConstants.TASK_NOT_FOUND_BY_PRIORITY_ID + id, null);
+        }
+        List<TaskResponse> taskResponse = new ArrayList<>();
+        for (Task task : tasks) {
+            TaskResponse taskResponseTemp = new TaskResponse();
+            taskResponseTemp.setId(task.getId());
+            taskResponseTemp.setDescription(task.getDescription());
+            taskResponseTemp.setDueDate(task.getDueDate());
+            taskResponseTemp.setTaskName(task.getTaskName());
+            taskResponseTemp.setUserId(task.getUser().getId());
+            taskResponseTemp.setTaskPriority(task.getTaskPriority().getDescription());
+            taskResponseTemp.setTaskPriorityLevel(task.getTaskPriority().getLevel());
+            taskResponseTemp.setTaskStatus(task.getTaskStatus().getStatus());
+            taskResponse.add(taskResponseTemp);
+        }
+
+        return new BaseResponse<>(WebConstants.BASE_SUCCESS, taskResponse);
+    }
+
 }

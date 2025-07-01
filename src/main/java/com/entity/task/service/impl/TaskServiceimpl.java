@@ -7,7 +7,7 @@ import com.entity.task.dto.response.BaseResponse;
 import com.entity.task.entities.Task;
 import com.entity.task.entities.TaskPriority;
 import com.entity.task.entities.TaskStatus;
-import com.entity.task.repository.TaskProrityRepository;
+import com.entity.task.repository.TaskPriorityRepository;
 import com.entity.task.repository.TaskRepository;
 import com.entity.task.repository.TaskStatusRepository;
 import com.entity.task.service.TaskService;
@@ -22,11 +22,11 @@ public class TaskServiceimpl implements TaskService {
 
     private final TaskStatusRepository taskStatusRepository;
 
-    private final TaskProrityRepository taskProrityRepository;
+    private final TaskPriorityRepository taskProrityRepository;
 
     public TaskServiceimpl(TaskRepository taskRepository, CurrentUserDetails currentUserDetails,
             TaskStatusRepository taskStatusRepository,
-            TaskProrityRepository taskProrityRepository) {
+            TaskPriorityRepository taskProrityRepository) {
         this.taskRepository = taskRepository;
         this.currentUserDetails = currentUserDetails;
         this.taskStatusRepository = taskStatusRepository;
